@@ -178,8 +178,7 @@ void CASW_Weapon::ItemBusyFrame( void )
 				pOwner->SetNextAttack( flSucceedDelay );
 				m_flNextPrimaryAttack = m_flNextSecondaryAttack = flSucceedDelay;
 
-				// TODO: hook up anim
-				//pMarine->DoAnimationEvent( PLAYERANIMEVENT_RELOAD_SUCCEED );
+				pMarine->DoAnimationEvent( PLAYERANIMEVENT_RELOAD_SUCCEED );
 
 				DispatchParticleEffect( "fast_reload", PATTACH_POINT_FOLLOW, this, "muzzle" );
 				pMarine->m_flPreventLaserSightTime = gpGlobals->curtime + 2.5f;

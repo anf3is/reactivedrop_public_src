@@ -354,6 +354,16 @@ void CASWPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t event )
 			m_flReloadCycle = 0;
 		}
 	}
+	else if ( event == PLAYERANIMEVENT_RELOAD_SUCCEED )
+	{
+		// readjust animation speed to match new attack delay
+
+		// TODO: define shared FAST_RELOAD_SUCCEED_DELAY
+		float flRemainingReloadTime = 0.5f;
+
+		float flRemainingCycle = 1.0f - m_flReloadCycle;
+		m_fReloadPlaybackRate = flRemainingCycle / flRemainingReloadTime;
+	}
 	else if ( event == PLAYERANIMEVENT_DROP_MAGAZINE_GIB )
 	{
 #ifdef CLIENT_DLL
