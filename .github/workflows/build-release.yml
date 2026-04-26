@@ -1,7 +1,9 @@
 name: Build release
 on:
   workflow_dispatch:
-
+  push:
+    branches:
+      - fix/anim-fast-reload
 # GitHub Actions usage is FREE for both public repositories and self-hosted runners.
 # We can use it to build our project and do some automated builds and in future quality tests.
 # https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
