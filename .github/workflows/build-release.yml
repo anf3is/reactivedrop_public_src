@@ -23,11 +23,6 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
 
-      # missionchooser.dll
-      - name: Build missionchooser.dll
-        working-directory: src/game/missionchooser
-        run: MSBuild.exe swarm_sdk_missionchooser.vcxproj -property:Configuration=Release
-
       # server.dll
       - name: Build server.dll
         working-directory: src/game/server
@@ -45,6 +40,5 @@ jobs:
         with:
           name: Release
           path: |
-            reactivedrop/bin/missionchooser.dll
             reactivedrop/bin/server.dll
             reactivedrop/bin/client.dll
