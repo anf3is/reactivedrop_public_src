@@ -3122,6 +3122,12 @@ void CAlienSwarm::UpdateLaunching()
 		{
 			RunScriptFunctionInListenerScopes( "OnGameplayStart", NULL, 0, NULL );
 		}
+
+		IGameEvent *event = gameeventmanager->CreateEvent( "rd_gameplay_start" );
+		if ( event )
+		{
+			gameeventmanager->FireEvent( event );
+		}
 	}
 	else
 	{

@@ -434,6 +434,7 @@ void ClientModeASW::Init()
 	gameeventmanager->AddListener( this, "mission_failed", false );
 	gameeventmanager->AddListener( this, "asw_mission_restart", false );
 	gameeventmanager->AddListener( this, "game_newmap", false );
+	gameeventmanager->AddListener( this, "rd_gameplay_start", false );
 	HOOK_MESSAGE( ASWBlur );
 	HOOK_MESSAGE( ASWCampaignCompleted );
 	HOOK_MESSAGE( ASWTechFailure );
@@ -825,6 +826,11 @@ void ClientModeASW::FireGameEvent( IGameEvent *event )
 
 		// BenLubar: Support configloader config files from that one HUD mod: https://steamcommunity.com/app/630/discussions/0/522728268792383118/
 		engine->ClientCmd_Unrestricted( VarArgs( "execifexists configloader/maps/%s\n", engine->GetLevelNameShort() ) );
+	}
+	else if ( Q_strcmp( "rd_gameplay_start", eventname ) == 0 )
+	{
+		engine->ClientCmd("execifexists gameplaystart\n");
+		engine->ClientCmd_Unrestricted( VarArgs( "execifexists maps_gameplaystart/%s\n", engine->GetLevelNameShort() ) );
 	}
 
 	if ( !Q_strcmp( "achievement_earned", eventname ) )
