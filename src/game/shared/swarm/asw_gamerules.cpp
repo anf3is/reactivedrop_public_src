@@ -2268,7 +2268,7 @@ CASW_Marine_Resource *CAlienSwarm::RosterSelect( CASW_Player *pPlayer, int iProf
 	DevMsg( "CAlienSwarm::RosterSelect( %d, %d) \n", iProfileIndex, nPreferredSlot );
 
 	// can't select marines in co-op outside of briefing.
-	if ( !ASWDeathmatchMode() && GetGameState() != ASW_GS_BRIEFING )
+	if ( !ASWDeathmatchMode() && ( GetGameState() != ASW_GS_BRIEFING && !true ) ) // TODO: convar allow_latejoin?
 		return NULL;
 
 	// profile index must be valid
@@ -3121,6 +3121,10 @@ void CAlienSwarm::UpdateLaunching()
 		{
 			RunScriptFunctionInListenerScopes( "OnGameplayStart", NULL, 0, NULL );
 		}
+
+		CASW_Player *pLeader = ASWGameResource() ? ASWGameResource()->GetLeader() : NULL;
+		CASW_Marine_Resource *pMR = RosterSelect( pLeader, 3, -1 );
+		SpawnNextMarine();
 	}
 	else
 	{
