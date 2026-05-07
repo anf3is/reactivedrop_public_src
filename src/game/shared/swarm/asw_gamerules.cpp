@@ -2673,6 +2673,7 @@ CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int
 		return pMR;
 	}
 
+	// TODO: start from mission start, not from now?
 	pMR->m_TimelineFriendlyFire.ClearAndStart();
 	pMR->m_TimelineKillsTotal.ClearAndStart();
 	pMR->m_TimelineHealth.ClearAndStart();
@@ -2688,6 +2689,7 @@ CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int
 	// TODO: maybe add arg (bSwitchNow)
 	// pPlayer->SwitchMarine( 0 );
 
+	// TODO: let it be the first guard?
 	if ( GetGameState() != ASW_GS_INGAME )
 	{
 		return pMR;
