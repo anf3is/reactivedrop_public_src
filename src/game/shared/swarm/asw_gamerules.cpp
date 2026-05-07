@@ -2684,6 +2684,10 @@ CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int
 
 	// TODO: spawn?
 
+	// TODO: test this.
+	// TODO: maybe add arg (bSwitchNow)
+	// pPlayer->SwitchMarine( 0 );
+
 	if ( GetGameState() != ASW_GS_INGAME )
 	{
 		return pMR;
