@@ -2659,7 +2659,7 @@ void CAlienSwarm::EnforceMaxMarines()
 	}
 }
 
-CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int iProfileIndex, int iPreferredSlot )
+CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int iProfileIndex, int iPreferredSlot, bool bSpawn )
 {
 	CASW_Marine_Resource *pMR = RosterSelect( pPlayer, iProfileIndex, iPreferredSlot );
 	if ( !pMR )
@@ -2683,7 +2683,16 @@ CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int
 
 	// TODO?: check if certain marines are here for conversation triggering
 
-	// TODO: spawn?
+	if ( !bSpawn )
+	{
+		return pMR;
+	}
+
+	// TODO: SpawnMarineAt + code from SpawnNextMarine?
+	if ( !SpawnNextMarine() ){
+		Msg("ScriptRosterSelect: SpawnNextMarine failed");
+		return pMR;
+	}
 
 	// TODO: test this.
 	// TODO: maybe add arg (bSwitchNow)
