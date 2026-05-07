@@ -3545,7 +3545,7 @@ HSCRIPT CASW_Player::ScriptRosterSelect( int iProfileIndex, int iPreferredSlot, 
 	{
 		if ( !ASWGameRules()->SpawnNextMarine() )
 		{
-			return ToHScript( NULL );
+			Msg("ScriptRosterSelect: SpawnNextMarine failed");
 		}
 	}
 
