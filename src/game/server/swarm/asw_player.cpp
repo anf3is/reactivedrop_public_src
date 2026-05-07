@@ -3543,7 +3543,7 @@ HSCRIPT CASW_Player::ScriptRosterSelect( int iProfileIndex, int iPreferredSlot, 
 	// TODO: maybe just always spawn and return output of spawn?
 	if ( bSpawn && pMarineResource )
 	{
-		if ( !ASWGameRules()->SpawnNextMarine() }
+		if ( !ASWGameRules()->SpawnNextMarine() )
 		{
 			return ToHScript( NULL );
 		}
