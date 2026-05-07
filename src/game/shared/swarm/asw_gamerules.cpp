@@ -2659,15 +2659,13 @@ void CAlienSwarm::EnforceMaxMarines()
 	}
 }
 
-CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int iProfileIndex, int iPreferredSlot = -1 )
+CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int iProfileIndex, int iPreferredSlot )
 {
 	CASW_Marine_Resource *pMR = RosterSelect( pPlayer, iProfileIndex, iPreferredSlot );
 	if ( !pMR )
 	{
 		return NULL;
 	}
-
-	const ASW_GameState eGameState = GetGameState();
 
 	// TODO: remove this guard?
 	if ( GetGameState() == ASW_GS_BRIEFING )
@@ -2701,7 +2699,7 @@ CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int
 		pMR->m_TimelinePosY.RecordValue( pMarine->GetAbsOrigin().y );
 	}
 
-	return pMR
+	return pMR;
 }
 
 void CAlienSwarm::ReviveDeadMarines()

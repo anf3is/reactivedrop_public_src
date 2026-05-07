@@ -3537,7 +3537,7 @@ HSCRIPT CASW_Player::ScriptRosterSelect( int iProfileIndex, int iPreferredSlot )
 {
 	// TODO: if player has marine - do nothing or proceed and add bot?
 	// TODO: do need to check if ingame?
-	CASW_Marine_Resource* pMarineResource = ASWGameResource()->ScriptRosterSelect( this, iProfileIndex, iPreferredSlot );
+	CASW_Marine_Resource* pMarineResource = ASWGameRules()->ScriptRosterSelect( this, iProfileIndex, iPreferredSlot );
 	// TODO: spawn? or spawn in above function? what about stats?
 
 	return ToHScript( pMarineResource );
