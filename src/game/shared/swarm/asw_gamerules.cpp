@@ -2674,13 +2674,14 @@ CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int
 		return pMR;
 	}
 
-	// TODO: start from mission start, not from now?
-	pMR->m_TimelineFriendlyFire.ClearAndStart();
-	pMR->m_TimelineKillsTotal.ClearAndStart();
-	pMR->m_TimelineHealth.ClearAndStart();
-	pMR->m_TimelineAmmo.ClearAndStart();
-	pMR->m_TimelinePosX.ClearAndStart();
-	pMR->m_TimelinePosY.ClearAndStart();
+	// // TODO: remove?
+	// // TODO: start from mission start, not from now?
+	// pMR->m_TimelineFriendlyFire.ClearAndStart();
+	// pMR->m_TimelineKillsTotal.ClearAndStart();
+	// pMR->m_TimelineHealth.ClearAndStart();
+	// pMR->m_TimelineAmmo.ClearAndStart();
+	// pMR->m_TimelinePosX.ClearAndStart();
+	// pMR->m_TimelinePosY.ClearAndStart();
 
 	// TODO?: check if certain marines are here for conversation triggering
 
@@ -2705,6 +2706,7 @@ CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int
 		return pMR;
 	}
 
+	// TODO: remove?
 	// Set up starting stats
 	CASW_Marine *pMarine = pMR->GetMarineEntity();
 	if ( pMarine )
