@@ -2660,7 +2660,7 @@ void CAlienSwarm::EnforceMaxMarines()
 }
 
 // TODO: rename to ScriptAddNewMarine?
-CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int iProfileIndex, int iPreferredSlot, bool bSpawn )
+CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int iProfileIndex, int iPreferredSlot, bool bSpawn, bool bJoin )
 {
 	// TODO: use CASW_Marine_Resource::CASW_Marine_Resource()?
 	CASW_Marine_Resource *pMR = RosterSelect( pPlayer, iProfileIndex, iPreferredSlot );
@@ -2697,9 +2697,10 @@ CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int
 		return pMR;
 	}
 
-	// TODO: test this.
-	// TODO: maybe add arg (bSwitchNow)
-	// pPlayer->SwitchMarine( 0 );
+	if ( bJoin )
+	{
+		pPlayer->SwitchMarine( 0 );
+	}
 
 	// TODO: let it be the first guard?
 	if ( GetGameState() != ASW_GS_INGAME )

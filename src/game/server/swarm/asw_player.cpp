@@ -3533,11 +3533,11 @@ const Vector& CASW_Player::GetCrosshairTracePos()
 	return m_vecCrosshairTracePos;
 }
 
-HSCRIPT CASW_Player::ScriptRosterSelect( int iProfileIndex, int iPreferredSlot, bool bSpawn )
+HSCRIPT CASW_Player::ScriptRosterSelect( int iProfileIndex, int iPreferredSlot, bool bSpawn, bool bJoin )
 {
 	// TODO: if player has marine - do nothing or proceed and add bot?
 	// TODO: do need to check if ingame?
-	CASW_Marine_Resource* pMarineResource = ASWGameRules()->ScriptRosterSelect( this, iProfileIndex, iPreferredSlot, bSpawn );
+	CASW_Marine_Resource* pMarineResource = ASWGameRules()->ScriptRosterSelect( this, iProfileIndex, iPreferredSlot, bSpawn, bJoin );
 
 	// TODO: spawn? or [spawn in above function]? what about stats?
 	// TODO: maybe just always spawn and return output of spawn?
