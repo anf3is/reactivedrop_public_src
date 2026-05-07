@@ -3121,10 +3121,6 @@ void CAlienSwarm::UpdateLaunching()
 		{
 			RunScriptFunctionInListenerScopes( "OnGameplayStart", NULL, 0, NULL );
 		}
-
-		CASW_Player *pLeader = ASWGameResource() ? ASWGameResource()->GetLeader() : NULL;
-		CASW_Marine_Resource *pMR = RosterSelect( pLeader, 3, -1 );
-		SpawnNextMarine();
 	}
 	else
 	{
