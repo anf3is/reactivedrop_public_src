@@ -79,7 +79,7 @@ public:
 	bool m_bAutoReload;
 	
 	// Add marine resource
-	HSCRIPT ScriptRosterSelect( int iProfileIndex, int iPreferredSlot = -1 );
+	HSCRIPT ScriptRosterSelect( int iProfileIndex, int iPreferredSlot = -1, bool bSpawn = false );
 
 	// Resurrection
 	HSCRIPT ResurrectMarine( const Vector position, bool bEffect = true );
