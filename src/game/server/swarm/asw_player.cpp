@@ -281,6 +281,7 @@ END_DATADESC()
 
 BEGIN_ENT_SCRIPTDESC( CASW_Player, CBasePlayer, "The player entity." )
 	DEFINE_SCRIPTFUNC( ResurrectMarine, "Resurrect the marine" )
+	DEFINE_SCRIPTFUNC_NAMED( ScriptRosterSelect, "RosterSelect", "Creates and returns Marine Recource for the Player" )
 	DEFINE_SCRIPTFUNC_NAMED( ScriptGetNPC, "GetNPC", "Returns entity the player is inhabiting" )
 	DEFINE_SCRIPTFUNC_NAMED( ScriptGetSpectatingNPC, "GetSpectatingNPC", "Returns entity the player is spectating" )
 	DEFINE_SCRIPTFUNC_NAMED( ScriptSetNPC, "SetNPC", "Force the player to inhabit an NPC" )
@@ -3530,6 +3531,16 @@ HSCRIPT CASW_Player::ScriptFindPickerEntity()
 const Vector& CASW_Player::GetCrosshairTracePos()
 {
 	return m_vecCrosshairTracePos;
+}
+
+HSCRIPT CASW_Player::ScriptRosterSelect( int iProfileIndex, int iPreferredSlot )
+{
+	// TODO: if player has marine - do nothing or proceed and add bot?
+	// TODO: do need to check if ingame?
+	CASW_Marine_Resource* pMarineResource = ASWGameResource()->ScriptRosterSelect( this, iProfileIndex, iPreferredSlot );
+	// TODO: spawn? or spawn in above function? what about stats?
+
+	return ToHScript( pMarineResource );
 }
 
 HSCRIPT CASW_Player::ResurrectMarine( const Vector position, bool bEffect )

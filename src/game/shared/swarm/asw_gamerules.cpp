@@ -2659,6 +2659,51 @@ void CAlienSwarm::EnforceMaxMarines()
 	}
 }
 
+CASW_Marine_Resource *CAlienSwarm::ScriptRosterSelect( CASW_Player *pPlayer, int iProfileIndex, int iPreferredSlot = -1 )
+{
+	CASW_Marine_Resource *pMR = RosterSelect( pPlayer, iProfileIndex, iPreferredSlot );
+	if ( !pMR )
+	{
+		return NULL;
+	}
+
+	const ASW_GameState eGameState = GetGameState();
+
+	// TODO: remove this guard?
+	if ( GetGameState() == ASW_GS_BRIEFING )
+	{
+		return pMR;
+	}
+
+	pMR->m_TimelineFriendlyFire.ClearAndStart();
+	pMR->m_TimelineKillsTotal.ClearAndStart();
+	pMR->m_TimelineHealth.ClearAndStart();
+	pMR->m_TimelineAmmo.ClearAndStart();
+	pMR->m_TimelinePosX.ClearAndStart();
+	pMR->m_TimelinePosY.ClearAndStart();
+
+	// TODO?: check if certain marines are here for conversation triggering
+
+	// TODO: spawn?
+
+	if ( GetGameState() != ASW_GS_INGAME )
+	{
+		return pMR;
+	}
+
+	// Set up starting stats
+	CASW_Marine *pMarine = pMR->GetMarineEntity();
+	if ( pMarine )
+	{
+		pMR->m_TimelineAmmo.RecordValue( pMarine->GetAllAmmoCount() );
+		pMR->m_TimelineHealth.RecordValue( pMarine->GetHealth() );
+		pMR->m_TimelinePosX.RecordValue( pMarine->GetAbsOrigin().x );
+		pMR->m_TimelinePosY.RecordValue( pMarine->GetAbsOrigin().y );
+	}
+
+	return pMR
+}
+
 void CAlienSwarm::ReviveDeadMarines()
 {
 	if (GetCampaignSave())

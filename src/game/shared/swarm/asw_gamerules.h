@@ -145,6 +145,7 @@ public:
 	virtual void			ReviveDeadMarines();
 	virtual void			EnforceFairMarineRules();
 	virtual void			EnforceMaxMarines();
+	virtual CASW_Marine_Resource *ScriptRosterSelect( CASW_Player *pPlayer, int iProfileIndex, int iPreferredSlot = -1 );
 
 	// loadout/equip
 	virtual void			LoadoutSelect( CASW_Marine_Resource *pMR, int iInvSlot, int iEquipIndex );

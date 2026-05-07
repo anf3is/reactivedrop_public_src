@@ -78,6 +78,9 @@ public:
 	bool ShouldAutoReload() { return m_bAutoReload; }
 	bool m_bAutoReload;
 	
+	// Add marine resource
+	HSCRIPT ScriptRosterSelect( int iProfileIndex, int iPreferredSlot = -1 );
+
 	// Resurrection
 	HSCRIPT ResurrectMarine( const Vector position, bool bEffect = true );
 
