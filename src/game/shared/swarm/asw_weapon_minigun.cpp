@@ -169,7 +169,7 @@ void CASW_Weapon_Minigun::PrimaryAttack()
 	// MUST call sound before removing a round from the clip of a CMachineGun
 	//WeaponSound(SINGLE);
 
-	if (m_iClip1 <= AmmoClickPoint())
+	if ( m_iClip1 <= AmmoClickPoint() && !m_bHalfShot )
 	{
 		LowAmmoSound();
 	}
