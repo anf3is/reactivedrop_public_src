@@ -87,6 +87,23 @@ C_ASW_Marine_Resource *C_ASW_Game_Resource::GetMarineResource( int i )
 	return m_MarineResources[i];
 }
 
+C_ASW_Marine_Resource *C_ASW_Game_Resource::GetMarineResourceForProfile( int iProfileIndex )
+{
+	if ( iProfileIndex < 0 || iProfileIndex > ASW_NUM_MARINE_PROFILES )
+		return NULL;
+
+	for ( int i = 0; i < GetMaxMarineResources(); i++ )
+	{
+		CASW_Marine_Resource *pMarineResource = GetMarineResource( i );
+		if ( pMarineResource->GetProfileIndex() == iProfileIndex )
+		{
+			return pMarineResource;
+		}
+	}
+
+	return NULL;
+}
+
 int C_ASW_Game_Resource::GetIndexFor( C_ASW_Marine_Resource *pMarineResource )
 {
 	for ( int i = 0; i < GetMaxMarineResources(); i++ )

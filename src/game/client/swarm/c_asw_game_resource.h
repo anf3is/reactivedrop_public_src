@@ -50,6 +50,7 @@ public:
 
 	C_ASW_Objective *GetObjective( int i );
 	C_ASW_Marine_Resource *GetMarineResource( int i );
+	C_ASW_Marine_Resource *GetMarineResourceForProfile( int iProfileIndex );
 	int GetIndexFor( C_ASW_Marine_Resource *pMarineResource );
 	bool IsRosterSelected( int i );
 	int GetMarineResourceIndex( C_ASW_Marine_Resource *pMR );
