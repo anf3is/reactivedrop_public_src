@@ -89,15 +89,15 @@ C_ASW_Marine_Resource *C_ASW_Game_Resource::GetMarineResource( int i )
 
 C_ASW_Marine_Resource *C_ASW_Game_Resource::GetMarineResourceForProfile( int iProfileIndex )
 {
-	if ( iProfileIndex < 0 || iProfileIndex > ASW_NUM_MARINE_PROFILES )
+	if ( iProfileIndex < 0 || iProfileIndex >= ASW_NUM_MARINE_PROFILES )
 		return NULL;
 
 	for ( int i = 0; i < GetMaxMarineResources(); i++ )
 	{
-		CASW_Marine_Resource *pMarineResource = GetMarineResource( i );
-		if ( pMarineResource->GetProfileIndex() == iProfileIndex )
+		CASW_Marine_Resource *pMR = GetMarineResource( i );
+		if ( pMR && pMR->GetProfileIndex() == iProfileIndex )
 		{
-			return pMarineResource;
+			return pMR;
 		}
 	}
 
