@@ -2180,6 +2180,13 @@ void CASW_Player::SpectateNextMarine()
 		return;
 	CASW_Marine *pFirst = NULL;
 	//Msg("CASW_Player::SpectateNextMarine\n");
+#ifdef GAME_DLL
+	{
+		pFirst = GetPreferredSpectatingMarine();
+		if ( !pFirst || !pFirst->IsAlive() || pFirst->GetHealth() <= 0 )
+			pFirst = NULL;
+	}
+#endif // GAME_DLL
 
 	// loop through all marines
 	for (int i=0;i<pGameResource->GetMaxMarineResources();i++)
