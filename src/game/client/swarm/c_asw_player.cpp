@@ -149,7 +149,6 @@ ConVar asw_turret_fog_end( "asw_turret_fog_end", "1200", 0, "Fog end distance fo
 
 ConVar rd_force_spectate_marine( "rd_force_spectate_marine", "-1", FCVAR_DONTRECORD, "spectate this marine resource index if it exists", true, -1, true, ASW_MAX_MARINE_RESOURCES );
 ConVar rd_force_spectate_marine_profile( "rd_force_spectate_marine_profile", "-1", FCVAR_DONTRECORD, "spectate this marine profile if it exists", true, -1, true, ASW_NUM_MARINE_PROFILES );
-ConVar rd_pref_spectate_marine_profile( "rd_pref_spectate_marine_profile", "-1", FCVAR_NONE, "Prefer to spectate this marine profile", true, -1, true, ASW_NUM_MARINE_PROFILES );
 
 extern ConVar asw_allow_detach;
 extern ConVar asw_stim_cam_time;
@@ -927,24 +926,6 @@ C_ASW_Inhabitable_NPC *C_ASW_Player::GetViewNPC() const
 		pNPC = GetNPC();
 	}
 	return pNPC;
-}
-
-C_ASW_Inhabitable_NPC *C_ASW_Player::GetPreferredSpectatingMarine() const
-{
-	if ( ASWGameResource() && ( engine->IsPlayingDemo() || m_hSpectating.Get() ) )
-	{
-		const int iProfile = rd_pref_spectate_marine_profile.GetInt();
-		if ( iProfile != -1 )
-		{
-			C_ASW_Marine_Resource *pMR = ASWGameResource()->GetMarineResourceForProfile( iProfile );
-			if ( pMR && pMR->GetMarineEntity() )
-			{
-				return pMR->GetMarineEntity();
-			}
-		}
-	}
-
-	return NULL;
 }
 
 HSCRIPT C_ASW_Player::Script_GetMarine() const
