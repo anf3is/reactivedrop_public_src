@@ -891,13 +891,17 @@ C_ASW_Inhabitable_NPC *C_ASW_Player::GetNPC() const
 
 C_ASW_Inhabitable_NPC *C_ASW_Player::GetSpectatingNPC() const
 {
-	// BenLubar: allow rd_force_spectate_marine to override the current marine if the player is spectating or watching a demo.
-	if ( rd_force_spectate_marine.GetInt() != -1 && ASWGameResource() && ( engine->IsPlayingDemo() || m_hSpectating.Get() ) )
+	if ( ASWGameResource() && ( engine->IsPlayingDemo() || m_hSpectating.Get() ) )
 	{
-		C_ASW_Marine_Resource *pMR = ASWGameResource()->GetMarineResource( rd_force_spectate_marine.GetInt() );
-		if ( pMR && pMR->GetMarineEntity() )
+		// BenLubar: allow rd_force_spectate_marine to override the current marine if the player is spectating or watching a demo.
+		const int iMarine = rd_force_spectate_marine.GetInt();
+		if ( iMarine != -1 )
 		{
-			return pMR->GetMarineEntity();
+			C_ASW_Marine_Resource *pMR = ASWGameResource()->GetMarineResource( iMarine );
+			if ( pMR && pMR->GetMarineEntity() )
+			{
+				return pMR->GetMarineEntity();
+			}
 		}
 	}
 	return m_hSpectating.Get();
