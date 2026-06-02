@@ -59,3 +59,7 @@ src/sourcelink.json
 src/utils/*/Debug/
 src/utils/*/Release/
 /.vs
+# for your local lsp:
+src/.clangd
+src/.clang-format
+src/**/compile_commands.json
