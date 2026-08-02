@@ -361,6 +361,8 @@ void CASWPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t event )
 	{
 		if ( m_bReloading == true && m_flReloadCycle < 1.0f )
 		{
+			m_iReloadSequence = CalcReloadSucceedLayerSequence();
+
 			// readjust animation speed to match new attack delay
 			const float fFastReloadTime = 0.5f;
 
