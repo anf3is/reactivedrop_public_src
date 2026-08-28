@@ -42,6 +42,7 @@ on:
 # We can use it to build our project and do some automated builds and in future quality tests.
 # https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
 
+
 jobs:
   build:
     name: build ${{ matrix.configuration }}
