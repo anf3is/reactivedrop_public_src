@@ -38,6 +38,8 @@
 ConVar asw_drone_melee_range("asw_drone_melee_range", "60.0", FCVAR_CHEAT, "Range of the drone's melee attack");
 ConVar asw_drone_start_melee_range("asw_drone_start_melee_range", "100.0", FCVAR_CHEAT, "Range at which the drone starts his melee attack");
 
+ConVar rd_big_melee_flinch_all_marines( "rd_big_melee_flinch_all_marines", 0, FCVAR_CHEAT, "Set big melee flinch duration for all marines." );
+
 #define ASW_DRONE_MELEE1_START_ATTACK_RANGE asw_drone_start_melee_range.GetFloat()
 #define ASW_DRONE_MELEE1_RANGE asw_drone_melee_range.GetFloat()
 
@@ -2188,6 +2190,12 @@ bool CASW_Drone_Advanced::IsHeavyDamage( const CTakeDamageInfo &info )
 		// if we've been kicked by a marine, store the flinch we should do based on that marine's melee skill
 		if ((info.GetDamageType() & DMG_CLUB) != 0)
 		{
+			if ( rd_big_melee_flinch_all_marines.GetBool() )
+			{
+				m_FlinchActivity = (Activity) ACT_ALIEN_FLINCH_BIG;
+				return true;
+			}
+
 			int i = pMarine->GetAlienMeleeFlinch();
 			if (i == 0)
 				m_FlinchActivity = (Activity) ACT_ALIEN_FLINCH_SMALL;
