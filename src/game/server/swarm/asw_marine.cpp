@@ -5987,11 +5987,6 @@ Disposition_t CASW_Marine::IRelationType( CBaseEntity *pTarget )
 {
 	if ( !ASWDeathmatchMode() || !ASWDeathmatchMode()->IsTeamDeathmatchEnabled() )
 	{
-		// fix marines can freeze incapacitated marines (and back)
-		if ( pTarget->Classify() == (Class_T)CLASS_ASW_MARINE && rd_allow_revive.GetBool() &&
-				( m_bKnockedOut || AsMarine( pTarget )->m_bKnockedOut ) )
-			return D_LI;
-
 		return BaseClass::IRelationType( pTarget );
 	}
 
