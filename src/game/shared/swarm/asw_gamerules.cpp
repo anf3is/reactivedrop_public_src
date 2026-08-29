@@ -7035,8 +7035,16 @@ void CAlienSwarm::FreezeAliensInRadius( CBaseEntity *pAttacker, CBaseEntity *pIn
 				}
 			}
 #endif
-			if ( !ASWDeathmatchMode() && ( !pAttacker || ( pAttackerMarine && pAttackerMarine->IRelationType( pEntity ) == D_LI ) ) )
+
+			CASW_Marine *pTargetMarine = CASW_Marine::AsMarine( pEntity );
+			// target is friendly or target is marine and someone is incapacitated
+			if ( !ASWDeathmatchMode() && ( !pAttacker ||
+					( pAttackerMarine && ( pAttackerMarine->IRelationType( pEntity ) == D_LI ||
+						( pTargetMarine && ( pTargetMarine->m_bKnockedOut || pAttackerMarine->m_bKnockedOut ) ) )
+			   ) ) )
+			{
 				continue;
+			}
 		}
 
 		if ( !pEntity->IsInhabitableNPC() )
