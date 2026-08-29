@@ -7035,7 +7035,7 @@ void CAlienSwarm::FreezeAliensInRadius( CBaseEntity *pAttacker, CBaseEntity *pIn
 				}
 			}
 #endif
-			if ( !ASWDeathmatchMode() && ( !pAttacker || ( pAttackerMarine && pAttackerMarine->IRelationType( pEntity ) != D_HATE ) ) )
+			if ( !ASWDeathmatchMode() && ( !pAttacker || ( pAttackerMarine && pAttackerMarine->IRelationType( pEntity ) == D_LI ) ) )
 				continue;
 		}
 
