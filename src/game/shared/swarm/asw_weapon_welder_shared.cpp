@@ -707,7 +707,6 @@ CASW_Door* CASW_Weapon_Welder::FindDoor()
 void CASW_Weapon_Welder::Drop( const Vector &vecVelocity )
 {
 	FinishWeld( GetMarine() );
-	m_fWeldTime = 0;
 	WeaponIdle();
 
 	BaseClass::Drop( vecVelocity );
