@@ -703,3 +703,10 @@ CASW_Door* CASW_Weapon_Welder::FindDoor()
 	}
 	return NULL;
 }
+
+void CASW_Weapon_Welder::Drop( const Vector &vecVelocity )
+{
+	FinishWeld( GetMarine() );
+
+	BaseClass::Drop( vecVelocity );
+}

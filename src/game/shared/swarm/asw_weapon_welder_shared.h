@@ -46,6 +46,8 @@ public:
 
 	CASW_Door* FindDoor();
 
+	virtual void Drop( const Vector &vecVelocity );
+
 	// aiming grenades at the ground
 	virtual bool SupportsGroundShooting() { return false; }
 
