@@ -1263,6 +1263,21 @@ void CASW_Marine::FirePenetratingBullets( const FireBulletsInfo_t &info, int iMa
 		}
 		VectorNormalize( vecFinalDir );
 
+		// if ( tr.startsolid )
+		// 	Msg( ">> startsolid fraction left:%f full:%f %s\n", tr.fractionleftsolid, tr.fraction, tr.m_pEnt ? tr.m_pEnt->GetClassname() : "" );
+		// started trace inside a cursed solid? // Fix sniper rifle world penetration
+		if ( tr.startsolid && tr.fraction != 0.0f && tr.DidHitWorld() )
+		{
+			// Could calculate new start point here with tr.fractionleftsolid,
+			// but code down below already handles subsequent penetration.
+			// Just prevent TraceLine escaping the solid causing infitite
+			// penetration with tr.m_Ent = solid it started in.
+			AI_TraceLine(info.m_vecSrc, info.m_vecSrc, MASK_SHOT, &traceFilter, &tr);
+			vecEnd = tr.endpos;
+		}
+		// else if ( tr.startsolid )
+		// 	Msg( "  ... but it was ok I guess\n" );
+
 #ifdef GAME_DLL
 		if ( ai_debug_shoot_positions.GetBool() )
 		{
@@ -1522,11 +1537,13 @@ void CASW_Marine::FirePenetratingBullets( const FireBulletsInfo_t &info, int iMa
 					int iNextMaxPenetrate = iMaxPenetrate;
 					if ( !tr.DidHitWorld() )
 					{
+						// Msg ( "Penetrate %.2f %d entity %s\n", fPenetrateChance, iMaxPenetrate, tr.m_pEnt->GetClassname() );
 						behindNPCInfo.m_pAdditionalIgnoreEnt = tr.m_pEnt;
 						iNextMaxPenetrate--;
 					}
 					else
 					{
+						// Msg ( "Penetrate %.2f %d world entity %s\n", fPenetrateChance, iMaxPenetrate, tr.m_pEnt->GetClassname() );
 						// Penetrate past the solid
 						behindNPCInfo.m_vecSrc = behindNPCInfo.m_vecSrc + behindNPCInfo.m_vecDirShooting * 28.0f;
 						behindNPCInfo.m_pAdditionalIgnoreEnt = NULL;
