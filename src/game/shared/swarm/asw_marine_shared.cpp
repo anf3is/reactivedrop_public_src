@@ -1462,6 +1462,13 @@ void CASW_Marine::FirePenetratingBullets( const FireBulletsInfo_t &info, int iMa
 			}
 		}
 
+		if ( bShowHitboxes && IsInhabited() && tr.DidHit() )
+		{
+			char buff[12];
+			sprintf(buff, "%3.2f %d", fPenetrateChance, iMaxPenetrate);
+			NDebugOverlay::Text( tr.endpos, buff, false, 4 );
+		}
+
 		if ( ( tr.m_pEnt != NULL ) && fPenetrateChance > 1.0f )
 		{
 			// We can only penetrate a few walls
