@@ -1412,6 +1412,13 @@ void CASW_Marine::FirePenetratingBullets( const FireBulletsInfo_t &info, int iMa
 			}
 		}
 
+		if ( bShowHitboxes && IsInhabited() && tr.DidHit() )
+		{
+			char buff[12];
+			sprintf(buff, "%3.2f %d", fPenetrateChance, iMaxPenetrate);
+			NDebugOverlay::Text( tr.endpos, buff, false, 4 );
+		}
+
 		// See if we hit glass
 		if ( tr.m_pEnt != NULL )
 		{
