@@ -1490,7 +1490,7 @@ void CASW_Marine::FirePenetratingBullets( const FireBulletsInfo_t &info, int iMa
 			fPenetrateChance -= 1.0f;
 
 			// If we didn't hit a wall, slow down the penetrating madness
-			if( fPenetrateChance > 1.0f && !tr.DidHitWorld() )
+			if( fPenetrateChance > 1.0f && !tr.DidHitWorld() && !bHitGlass )
 			{
 				fPenetrateChance = 1.0f;
 			}
