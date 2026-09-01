@@ -333,7 +333,10 @@ void CASW_Weapon_Railgun::PrimaryAttack()
 		0.5,							// radius
 		0.5 );						// magnitude
 		*/
-	pMarine->FirePenetratingBullets( info, 10, 1.0f, 0, true, NULL, false );
+	int iMaxPenetrate = 10;
+	iMaxPenetrate += pMarine->GetDamageBuffEndTime() > gpGlobals->curtime ? 4 : 0;
+	iMaxPenetrate += MarineSkills()->GetSkillPoints( pMarine->GetMarineProfile(), ASW_MARINE_SKILL_STOPPING_POWER );
+	pMarine->FirePenetratingBullets( info, iMaxPenetrate, 1.0f, 0, true, NULL, false );
 	//pMarine->FireBullets( info );
 #endif	// ASW_RAILGUN_SWEEP_STYLE
 	
