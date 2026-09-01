@@ -196,9 +196,11 @@ void CASW_Weapon_Sniper_Rifle::PrimaryAttack( void )
 	}
 	if ( pMarine->GetDamageBuffEndTime() > gpGlobals->curtime )		// sniper rifle penetrates more targets when marine is in a damage amp
 	{
-		iPenetration = 3;
+		iPenetration += 2;
 	}
-	pMarine->FirePenetratingBullets( info, iPenetration, 3.5f, 0, true, NULL, false  );
+	float fPiercingChance = 2.5f + iPenetration;
+	fPiercingChance += MarineSkills()->GetSkillBasedValueByMarine( pMarine, ASW_MARINE_SKILL_STOPPING_POWER, ASW_MARINE_SUBSKILL_PIERCING_CHANCE );
+	pMarine->FirePenetratingBullets( info, iPenetration, fPiercingChance, 0, true, NULL, false  );
 
 	// increment shooting stats
 #ifndef CLIENT_DLL
