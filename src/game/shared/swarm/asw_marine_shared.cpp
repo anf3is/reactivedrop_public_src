@@ -92,6 +92,8 @@ ConVar rd_difficulty_tier( "rd_difficulty_tier", "0", FCVAR_REPLICATED | FCVAR_C
 ConVar sv_showimpacts( "sv_showimpacts", "0", FCVAR_REPLICATED, "Shows client (red) and server (blue) bullet impact point (1=both, 2=client-only, 3=server-only)" );
 ConVar rd_shoot_from_face( "rd_shoot_from_face", "1", FCVAR_REPLICATED | FCVAR_CHEAT, "In first person, the gun fires out of our eyes instead of from where the gun is being held." );
 
+ConVar rd_shieldbug_pierce( "rd_shieldbug_pierce", "0", FCVAR_REPLICATED | FCVAR_CHEAT, "Penetration force needed to pierce the Shieldbug's shield. \"0\" for no piercing." );
+
 #ifdef GAME_DLL
 extern ConVar ai_show_hull_attacks;
 ConVar asw_melee_knockback_up_force( "asw_melee_knockback_up_force", "1.0", FCVAR_CHEAT );
@@ -1456,6 +1458,7 @@ void CASW_Marine::FirePenetratingBullets( const FireBulletsInfo_t &info, int iMa
 			fDiceRoll = RandomFloat( 0.0f, 1.0f );
 		}
 
+		bool bShieldbugBlocked = false;
 		bool bPierce = ( tr.m_pEnt != NULL ) && ( fDiceRoll < fPenetrateChance) && !bHitGlass && !tr.DidHitWorld();
 		if (bPierce)
 		{
@@ -1466,9 +1469,14 @@ void CASW_Marine::FirePenetratingBullets( const FireBulletsInfo_t &info, int iMa
 			{
 				if ( tr.m_pEnt->Classify() == CLASS_ASW_SHIELDBUG )		// don't let bullets pass through shieldbugs
 				{
-					bool bShieldbugBlocked = false;
 					bShieldbugBlocked = ( tr.hitgroup == HITGROUP_BONE_SHIELD || tr.hitbox == 1 ); // see CASW_Shieldbug::BlockedDamage
 					bPierce = !bShieldbugBlocked;
+
+					if ( bShieldbugBlocked && rd_shieldbug_pierce.GetInt() > 0 && iMaxPenetrate >= rd_shieldbug_pierce.GetInt() )
+					{
+						bPierce = true;
+						iMaxPenetrate -= rd_shieldbug_pierce.GetInt() - 1; // don't penetrate several sb in a row
+					}
 				}
 				else if ( ( info.m_nFlags & FIRE_BULLETS_NO_PIERCING_SPARK ) == 0 )
 				{
@@ -1538,7 +1546,7 @@ void CASW_Marine::FirePenetratingBullets( const FireBulletsInfo_t &info, int iMa
 					}
 
 					int iNextMaxPenetrate = iMaxPenetrate;
-					if ( !tr.DidHitWorld() )
+					if ( !tr.DidHitWorld() && !bShieldbugBlocked )
 					{
 						// Msg ( "Penetrate %.2f %d entity %s\n", fPenetrateChance, iMaxPenetrate, tr.m_pEnt->GetClassname() );
 						behindNPCInfo.m_pAdditionalIgnoreEnt = tr.m_pEnt;
