@@ -855,18 +855,18 @@ int CASW_Player::GetUsePriority( CBaseEntity *pEnt )
 #endif
 
 		CCollisionProperty *pMyProp = pTargetEnt->CollisionProp();
-		Ray_t ray;
-		ray.Init( vTracePos + Vector( 0.0f, 0.0f, -10.0f ), vTracePos + Vector( 0.0f, 0.0f, 10.0f ) );
+		float flDistance = vTracePos.DistToSqr( pMyProp->GetCollisionOrigin() );
 
 #ifdef GAME_DLL
 		//NDebugOverlay::Line( vTracePos, vTracePos + Vector( 0.0f, 0.0f, 1.0f ), 255, 0, 0, true, 0.0f );
 		//NDebugOverlay::BoxAngles( pMyProp->GetCollisionOrigin(), pMyProp->OBBMins(), pMyProp->OBBMaxs(), pMyProp->GetCollisionAngles(), 255, 255, 0, true, 0.0f );
 #endif
 
-		if ( IsRayIntersectingOBB( ray, pMyProp->GetCollisionOrigin(), pMyProp->GetCollisionAngles(), pMyProp->OBBMins(), pMyProp->OBBMaxs() ) )
+		const float flMaxDistance = 1000;
+		if ( flDistance < flMaxDistance - 4 )
 		{
-			// Under the crosshair! Give it a high number, but subtract distance from the score in case multiple things are under the crosshair.
-			return ( 10000 - vTracePos.DistTo( pMyProp->GetCollisionOrigin() ) );
+			// Near the crosshair! Give it a high number, but subtract distance from the score in case multiple things are under the crosshair.
+			return flMaxDistance - flDistance;
 		}
 	}
 
