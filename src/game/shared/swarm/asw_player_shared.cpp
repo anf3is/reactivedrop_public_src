@@ -847,6 +847,15 @@ int CASW_Player::GetUsePriority( CBaseEntity *pEnt )
 
 	if ( !pTargetEnt->IsEffectActive( EF_NODRAW ) )
 	{
+		CBaseEntity *pHighlighted =
+#ifdef GAME_DLL
+			GetHighlightEntity();
+#else
+			ASWInput()->GetHighlightEntity();
+#endif
+		if ( pHighlighted && pHighlighted->entindex() == pTargetEnt->entindex() )
+			return 777;
+
 		Vector vTracePos =
 #ifdef GAME_DLL
 			GetCrosshairTracePos();
