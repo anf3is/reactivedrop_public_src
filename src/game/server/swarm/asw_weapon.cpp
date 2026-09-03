@@ -113,6 +113,8 @@ CASW_Weapon::CASW_Weapon()
 	m_hOriginalOwnerMR = NULL;
 	m_iInventoryEquipSlot = 0;
 	m_iClassRequirementOverride = -1;
+
+	m_takedamage = DAMAGE_NO;
 }
 
 
