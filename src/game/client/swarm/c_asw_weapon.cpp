@@ -173,6 +173,8 @@ m_GlowObject( this, glow_outline_color_weapon.GetColorAsVector(), 1.0f, false, t
 	m_bPoweredUp = false;
 	m_bIsTemporaryPickup = false;
 	m_iClassRequirementOverride = -1;
+
+	m_takedamage = DAMAGE_NO;
 }
 
 
