@@ -48,6 +48,7 @@ protected:
 	CHandle<CSprite>		m_pMainGlow;
 	CHandle<CSpriteTrail>	m_pGlowTrail;
 	CBaseEntity* m_pLastHitEnt;
+	CBaseEntity* m_pSecondToLastHitEnt;
 
 	float		m_flDamage;
 	bool		m_bHurtIgnited;

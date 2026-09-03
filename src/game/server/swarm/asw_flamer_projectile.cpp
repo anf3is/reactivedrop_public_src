@@ -51,6 +51,7 @@ END_DATADESC()
 CASW_Flamer_Projectile::CASW_Flamer_Projectile()
 {
 	m_pLastHitEnt = NULL;
+	m_pSecondToLastHitEnt = NULL;
 }
 
 CASW_Flamer_Projectile::~CASW_Flamer_Projectile( void )
@@ -167,7 +168,7 @@ void CASW_Flamer_Projectile::FlameHit( CBaseEntity *pOther, const Vector &vecHit
 
 	if ( pOther->m_takedamage != DAMAGE_NO)
 	{
-		if ( pOther == m_pLastHitEnt )
+		if ( pOther == m_pLastHitEnt || pOther == m_pSecondToLastHitEnt )
 			return;
 
 		if ( bOnlyHurtUnignited)
@@ -209,6 +210,7 @@ void CASW_Flamer_Projectile::FlameHit( CBaseEntity *pOther, const Vector &vecHit
 			ApplyMultiDamage();
 
 			// keep going through normal entities?
+			m_pSecondToLastHitEnt = m_pLastHitEnt;
 			m_pLastHitEnt = pOther;
 		}
 
