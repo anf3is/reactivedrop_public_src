@@ -182,6 +182,7 @@ CASW_BuffGrenade_Projectile* CASW_BuffGrenade_Projectile::Grenade_Projectile_Cre
 	pGrenade->m_flDuration = flDuration;
 	pGrenade->SetAbsAngles( angles );
 	pGrenade->Spawn();
+	pGrenade->SetCollisionGroup( ASW_COLLISION_GROUP_MINES );
 	pGrenade->SetOwnerEntity( pOwner );
 	//Msg("making pBuffGrenade with velocity %f,%f,%f\n", velocity.x, velocity.y, velocity.z);
 	UTIL_SetOrigin( pGrenade, position );

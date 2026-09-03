@@ -229,6 +229,7 @@ CASW_AOEGrenade_Projectile* CASW_HealGrenade_Projectile::Grenade_Projectile_Crea
 	pGrenade->m_flHealAmountTotal = flTotalHealAmount;
 	pGrenade->SetAbsAngles( angles );
 	pGrenade->Spawn();
+	pGrenade->SetCollisionGroup( ASW_COLLISION_GROUP_MINES );
 	pGrenade->SetOwnerEntity( pOwner );
 	//Msg("making pBuffGrenade with velocity %f,%f,%f\n", velocity.x, velocity.y, velocity.z);
 	UTIL_SetOrigin( pGrenade, position );

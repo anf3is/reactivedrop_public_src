@@ -314,6 +314,8 @@ enum
 	ASW_COLLISION_GROUP_BOTS,			// reactivedrop: collision group for bots
 	ASW_COLLISION_GROUP_BOT_MOVEMENT,
 	ASW_COLLISION_GROUP_SHIELD,			// collides with projectiles and NPCs
+	ASW_COLLISION_GROUP_MINES,			// like grenades but does't collide with metal doors
+
 	ASW_COLLISION_GROUP_PASSABLE,		// asw (stuff you can walk through) NOTE: Has to be LAST!
 };
 

@@ -81,7 +81,7 @@ void CASW_Laser_Mine::Spawn( void )
 	m_nSkin = 3;
 
 	AddEffects( EF_NOSHADOW | EF_NORECEIVESHADOW );
-	SetCollisionGroup( ASW_COLLISION_GROUP_GRENADES );
+	SetCollisionGroup( ASW_COLLISION_GROUP_MINES );
 	CFunc_ASW_Fade::ApplyAllGrenadeCollisionRules( this );
 
 	SetThink( &CASW_Laser_Mine::LaserThink );

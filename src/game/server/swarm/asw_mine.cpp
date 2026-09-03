@@ -55,7 +55,7 @@ void CASW_Mine::Spawn( void )
 	SetSize( -Vector(1, 1, 1), Vector(1, 1, 1) );
 	SetSolid( SOLID_BBOX );
 	AddSolidFlags( FSOLID_TRIGGER );
-	SetCollisionGroup( ASW_COLLISION_GROUP_GRENADES );
+	SetCollisionGroup( ASW_COLLISION_GROUP_MINES );
 	CFunc_ASW_Fade::ApplyAllGrenadeCollisionRules( this );
 	SetMoveType( MOVETYPE_FLYGRAVITY );
 	m_takedamage	= DAMAGE_NO;
