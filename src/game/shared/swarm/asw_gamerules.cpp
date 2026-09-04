@@ -654,6 +654,7 @@ ConVar rd_refill_secondary( "rd_refill_secondary", "0", FCVAR_CHEAT | FCVAR_REPL
 ConVar rd_allow_revive( "rd_allow_revive", "0", FCVAR_CHEAT | FCVAR_REPLICATED );
 ConVar rd_revive_duration( "rd_revive_duration", "2.0", FCVAR_CHEAT | FCVAR_REPLICATED, "How long it takes to revive an incapacitated marine" );
 ConVar rd_revive_health( "rd_revive_health", "10", FCVAR_CHEAT | FCVAR_REPLICATED, "How much health a revived marine gets" );
+// TODO: add callback to set defaults if gamerules and set relationship to (undead) marines if in game
 ConVar rd_revive_alive_hate_dead( "rd_revive_alive_hate_dead", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Allow alive marines to inflict status effects (like freeze) to incapacitated marines." );
 ConVar rd_revive_dead_hate_alive( "rd_revive_dead_hate_alive", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Allow incapacitated marines to inflict status effects (like freeze) to alive marines (including projectiles they spawned while being alive)" );
 ConVar rd_hp_regen( "rd_hp_regen", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "0 disable marines' health regeneration" );
