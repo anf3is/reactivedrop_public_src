@@ -826,7 +826,8 @@ void CASW_Player::SortUsePair( CBaseEntity **pEnt1, CBaseEntity **pEnt2, int *pn
 }
 
 ConVar rd_new_use_mouse_proximity( "rd_new_use_mouse_proximity", "1", FCVAR_REPLICATED, "Calculate the item's use priority based on its origin's proximity to the cursor." );
-ConVar rd_new_use_mouse_proximity_debug( "rd_new_use_mouse_proximity_debug", "1", FCVAR_REPLICATED, "show debug boxes and numbers" );
+ConVar rd_new_use_mouse_proximity_debug( "rd_new_use_mouse_proximity_debug", "1", FCVAR_REPLICATED, "show relevant debug boxes and numbers" );
+ConVar rd_new_use_mouse_proximity_debug_box( "rd_new_use_mouse_proximity_debug_box", "0", FCVAR_REPLICATED, "show irrelevant debug box for new" );
 ConVar rd_new_use_mouse_proximity_dist( "rd_new_use_mouse_proximity_dist", "1000", FCVAR_REPLICATED, "Max square dist from item's origin to the cursor on the floor", true, 4, true, 1000111 );
 ConVar rd_new_use_mouse_proximity_item( "rd_new_use_mouse_proximity_item", "1", FCVAR_REPLICATED, "tru to check visual entity" );
 
@@ -879,6 +880,11 @@ int CASW_Player::GetUsePriority( CBaseEntity *pEnt )
 #ifdef GAME_DLL
 			if ( rd_new_use_mouse_proximity_debug.GetBool() )
 			{
+				if ( rd_new_use_mouse_proximity_debug_box.GetBool() )
+				{
+					NDebugOverlay::Line( vTracePos, vTracePos + Vector( 0.0f, 0.0f, 1.0f ), 255, 0, 0, false, 0.0f );
+					NDebugOverlay::BoxAngles( pMyProp->GetCollisionOrigin(), pMyProp->OBBMins(), pMyProp->OBBMaxs(), pMyProp->GetCollisionAngles(), 255, 255, 0, true, 0.0f );
+				}
 				char szOverlay[40];
 				snprintf(szOverlay, 40, "%.0f", flDistance );
 				NDebugOverlay::Text( pMyProp->GetCollisionOrigin(), szOverlay, false, 0.0f);
@@ -909,7 +915,7 @@ int CASW_Player::GetUsePriority( CBaseEntity *pEnt )
 #ifdef GAME_DLL
 			if ( rd_new_use_mouse_proximity_debug.GetBool() )
 			{
-				NDebugOverlay::Line( vTracePos, vTracePos + Vector( 0.0f, 0.0f, 1.0f ), 255, 0, 0, true, 0.0f );
+				NDebugOverlay::Line( vTracePos, vTracePos + Vector( 0.0f, 0.0f, 1.0f ), 255, 0, 0, false, 0.0f );
 				NDebugOverlay::BoxAngles( pMyProp->GetCollisionOrigin(), pMyProp->OBBMins(), pMyProp->OBBMaxs(), pMyProp->GetCollisionAngles(), 255, 255, 0, true, 0.0f );
 			}
 #endif
