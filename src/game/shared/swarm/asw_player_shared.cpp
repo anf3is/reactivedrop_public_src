@@ -882,8 +882,6 @@ int CASW_Player::GetUsePriority( CBaseEntity *pEnt )
 				char szOverlay[40];
 				snprintf(szOverlay, 40, "%.0f", flDistance );
 				NDebugOverlay::Text( pMyProp->GetCollisionOrigin(), szOverlay, false, 0.0f);
-				NDebugOverlay::Line( vTracePos, vTracePos + Vector( 0.0f, 0.0f, 1.0f ), 255, 0, 0, true, 0.0f );
-				NDebugOverlay::BoxAngles( pMyProp->GetCollisionOrigin(), pMyProp->OBBMins(), pMyProp->OBBMaxs(), pMyProp->GetCollisionAngles(), 255, 255, 0, true, 0.0f );
 				NDebugOverlay::Cross3D( pMyProp->GetCollisionOrigin(), 10, 0,0,255, true, 0.0f );
 			}
 #endif
