@@ -825,6 +825,10 @@ void CASW_Player::SortUsePair( CBaseEntity **pEnt1, CBaseEntity **pEnt2, int *pn
 	}
 }
 
+ConVar rd_new_use_mouse_proximity( "rd_new_use_mouse_proximity", "1", FCVAR_REPLICATED, "Calculate the item's use priority based on its origin's proximity to the cursor." );
+ConVar rd_new_use_mouse_proximity_dist( "rd_new_use_mouse_proximity_dist", "1000", FCVAR_REPLICATED, "Max square dist from item's origin to the cursor on the floor", true, 4, true, 1000111 );
+ConVar rd_new_use_mouse_proximity_item( "rd_new_use_mouse_proximity_item", "1", FCVAR_REPLICATED, "tru to check visual entity" );
+
 // returns the priority of a usable entity
 int CASW_Player::GetUsePriority( CBaseEntity *pEnt )
 {
@@ -847,39 +851,69 @@ int CASW_Player::GetUsePriority( CBaseEntity *pEnt )
 
 	if ( !pTargetEnt->IsEffectActive( EF_NODRAW ) )
 	{
-		CBaseEntity *pHighlighted =
-#ifdef GAME_DLL
-			GetHighlightEntity();
-#else
-			ASWInput()->GetHighlightEntity();
-#endif
-		if ( pHighlighted && pHighlighted->entindex() == pTargetEnt->entindex() )
-			return 777;
-
-		Vector vTracePos =
-#ifdef GAME_DLL
-			GetCrosshairTracePos();
-#else
-			ASWInput()->GetCrosshairTracePos();
-#endif
-
-		CCollisionProperty *pMyProp = pTargetEnt->CollisionProp();
-		float flDistance = vTracePos.DistToSqr( pMyProp->GetCollisionOrigin() );
-
-#ifdef GAME_DLL
-		char szOverlay[40];
-		snprintf(szOverlay, 40, "%.0f", flDistance );
-		NDebugOverlay::Text( pMyProp->GetCollisionOrigin(), szOverlay, false, 0.0f);
-		NDebugOverlay::Line( vTracePos, vTracePos + Vector( 0.0f, 0.0f, 1.0f ), 255, 0, 0, true, 0.0f );
-		NDebugOverlay::BoxAngles( pMyProp->GetCollisionOrigin(), pMyProp->OBBMins(), pMyProp->OBBMaxs(), pMyProp->GetCollisionAngles(), 255, 255, 0, true, 0.0f );
-		NDebugOverlay::Cross3D( pMyProp->GetCollisionOrigin(), 10, 0,0,255, true, 0.0f );
-#endif
-
-		const float flMaxDistance = 1000;
-		if ( flDistance < flMaxDistance - 4 )
+		if ( rd_new_use_mouse_proximity.GetBool() )
 		{
-			// Near the crosshair! Give it a high number, but subtract distance from the score in case multiple things are under the crosshair.
-			return flMaxDistance - flDistance;
+			if ( rd_new_use_mouse_proximity_item.GetBool() )
+			{
+				CBaseEntity *pHighlighted =
+#ifdef GAME_DLL
+					GetHighlightEntity();
+#else
+					ASWInput()->GetHighlightEntity();
+#endif
+				if ( pHighlighted && pHighlighted->entindex() == pTargetEnt->entindex() )
+					return 777;
+			}
+
+			Vector vTracePos =
+#ifdef GAME_DLL
+				GetCrosshairTracePos();
+#else
+				ASWInput()->GetCrosshairTracePos();
+#endif
+
+			CCollisionProperty *pMyProp = pTargetEnt->CollisionProp();
+			float flDistance = vTracePos.DistToSqr( pMyProp->GetCollisionOrigin() );
+
+#ifdef GAME_DLL
+			char szOverlay[40];
+			snprintf(szOverlay, 40, "%.0f", flDistance );
+			NDebugOverlay::Text( pMyProp->GetCollisionOrigin(), szOverlay, false, 0.0f);
+			NDebugOverlay::Line( vTracePos, vTracePos + Vector( 0.0f, 0.0f, 1.0f ), 255, 0, 0, true, 0.0f );
+			NDebugOverlay::BoxAngles( pMyProp->GetCollisionOrigin(), pMyProp->OBBMins(), pMyProp->OBBMaxs(), pMyProp->GetCollisionAngles(), 255, 255, 0, true, 0.0f );
+			NDebugOverlay::Cross3D( pMyProp->GetCollisionOrigin(), 10, 0,0,255, true, 0.0f );
+#endif
+
+			const float flMaxDistance = rd_new_use_mouse_proximity_dist.GetFloat();
+			if ( flDistance < flMaxDistance - 4 )
+			{
+				// Near the crosshair! Give it a high number, but subtract distance from the score in case multiple things are under the crosshair.
+				return flMaxDistance - flDistance;
+			}
+		}
+		else
+		{
+			Vector vTracePos =
+#ifdef GAME_DLL
+				GetCrosshairTracePos();
+#else
+				ASWInput()->GetCrosshairTracePos();
+#endif
+
+			CCollisionProperty *pMyProp = pTargetEnt->CollisionProp();
+			Ray_t ray;
+			ray.Init( vTracePos + Vector( 0.0f, 0.0f, -10.0f ), vTracePos + Vector( 0.0f, 0.0f, 10.0f ) );
+
+#ifdef GAME_DLL
+			NDebugOverlay::Line( vTracePos, vTracePos + Vector( 0.0f, 0.0f, 1.0f ), 255, 0, 0, true, 0.0f );
+			NDebugOverlay::BoxAngles( pMyProp->GetCollisionOrigin(), pMyProp->OBBMins(), pMyProp->OBBMaxs(), pMyProp->GetCollisionAngles(), 255, 255, 0, true, 0.0f );
+#endif
+
+			if ( IsRayIntersectingOBB( ray, pMyProp->GetCollisionOrigin(), pMyProp->GetCollisionAngles(), pMyProp->OBBMins(), pMyProp->OBBMaxs() ) )
+			{
+				// Under the crosshair! Give it a high number, but subtract distance from the score in case multiple things are under the crosshair.
+				return ( 10000 - vTracePos.DistTo( pMyProp->GetCollisionOrigin() ) );
+			}
 		}
 	}
 
