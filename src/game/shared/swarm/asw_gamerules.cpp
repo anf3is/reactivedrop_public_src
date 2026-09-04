@@ -654,6 +654,8 @@ ConVar rd_refill_secondary( "rd_refill_secondary", "0", FCVAR_CHEAT | FCVAR_REPL
 ConVar rd_allow_revive( "rd_allow_revive", "0", FCVAR_CHEAT | FCVAR_REPLICATED );
 ConVar rd_revive_duration( "rd_revive_duration", "2.0", FCVAR_CHEAT | FCVAR_REPLICATED, "How long it takes to revive an incapacitated marine" );
 ConVar rd_revive_health( "rd_revive_health", "10", FCVAR_CHEAT | FCVAR_REPLICATED, "How much health a revived marine gets" );
+ConVar rd_revive_alive_hate_dead( "rd_revive_alive_hate_dead", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Allow alive marines to inflict status effects (like freeze) to incapacitated marines." );
+ConVar rd_revive_dead_hate_alive( "rd_revive_dead_hate_alive", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Allow incapacitated marines to inflict status effects (like freeze) to alive marines (including projectiles they spawned while being alive)" );
 ConVar rd_hp_regen( "rd_hp_regen", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "0 disable marines' health regeneration" );
 ConVar rd_add_bots( "rd_add_bots", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "1 add bots to fill free slots, 0 don't add" );
 ConVar rd_ammo_bonus( "rd_ammo_bonus", "0", FCVAR_CHEAT | FCVAR_REPLICATED );
@@ -4610,7 +4612,10 @@ void CAlienSwarm::InitDefaultAIRelationships()
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_MARINES, FACTION_NEUTRAL, D_NEUTRAL, 0 );
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_MARINES, FACTION_COMBINE, D_HATE, 0 );
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_MARINES, FACTION_ROBOTS, D_HATE, 0 );
-	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_MARINES, FACTION_INCAPACITATED, D_LIKE, 0 );
+	if ( !rd_revive_alive_hate_dead.GetBool() )
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_MARINES, FACTION_INCAPACITATED, D_LIKE, 0 );
+	else
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_MARINES, FACTION_INCAPACITATED, D_NEUTRAL, 0 );
 
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_ALIENS, FACTION_MARINES, D_HATE, 0 );
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_ALIENS, FACTION_ALIENS, D_LIKE, 0 );
@@ -4645,13 +4650,22 @@ void CAlienSwarm::InitDefaultAIRelationships()
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_ROBOTS, FACTION_INCAPACITATED, D_NEUTRAL, 0 );
 
 	// Just like Marines. But Hostiles should be neutral towards undead marines or else they will swarm dead bodies when `rd_allow_revive 1`
-	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_MARINES, D_LIKE, 0 );
+	if ( !rd_revive_dead_hate_alive.GetBool() )
+	{
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_MARINES, D_LIKE, 0 );
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_INCAPACITATED, D_LIKE, 0 );
+	}
+	else
+	{
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_MARINES, D_NEUTRAL, 0 );
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_INCAPACITATED, D_NEUTRAL, 0 );
+	}
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_ALIENS, D_HATE, 0 );
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_BAIT, D_NEUTRAL, 0 );
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_NEUTRAL, D_NEUTRAL, 0 );
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_COMBINE, D_HATE, 0 );
 	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_ROBOTS, D_HATE, 0 );
-	CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_INCAPACITATED, D_LIKE, 0 );
+	// CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_INCAPACITATED, D_LIKE, 0 );
 
 	// Matching HL2 defaults: Wildlife is scared of everything except other wildlife, barnacles (if we ever add them), and invisible NPCs.
 	for ( int nClass = CLASS_NONE; nClass < LAST_ASW_ENTITY_CLASS; nClass++ )
