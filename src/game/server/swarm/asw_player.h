@@ -89,11 +89,12 @@ public:
 	// spectating
 private:
 	bool m_bSpectatingInOrder = false;
-	int m_iSpectatingPrioMapping[ASW_NUM_MARINE_PROFILES]; // profile -> priority; smaller number is higher priority
+	int m_iProfileToSpectatingPriority[ASW_NUM_MARINE_PROFILES]; // smaller number is higher priority
+	int m_iWorstPriority = ASW_NUM_MARINE_PROFILES; // "unreachable" priority
 public:
 	void UnsetSpectatingOrder() { m_bSpectatingInOrder = false; }
 	void SetSpectatingOrder( const int* iProfiles, int nProfiles );
-	int GetSpectatingPriority( CASW_Marine* pMarine ) const;
+	int GetSpectatingPriority( CASW_Marine* pMarine ) const; // returns worst priority if no marine or no profile index
 	void SpectateNextMarineInOrder();
 	void SpectateNextMarine();
 	void SetSpectatingNPC( CASW_Inhabitable_NPC *pSpectating );

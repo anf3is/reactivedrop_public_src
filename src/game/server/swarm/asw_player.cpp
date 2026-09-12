@@ -2223,19 +2223,21 @@ void CASW_Player::SetSpectatingOrder( const int* iProfiles, int nProfiles )
 		return;
 	}
 
+	nProfiles = MIN( nProfiles, ASW_NUM_MARINE_PROFILES );
+	m_iWorstPriority = nProfiles;
+
 	// Prefill with worst priority in case a profile is not in the list or is invalid
 	for ( int i = 0; i < ASW_NUM_MARINE_PROFILES; i++ )
 	{
-		m_iSpectatingPrioMapping[i] = INT_MAX;
+		m_iProfileToSpectatingPriority[i] = m_iWorstPriority;
 	}
 
-	nProfiles = MIN( nProfiles, ASW_NUM_MARINE_PROFILES );
 	for ( int i = 0; i < nProfiles; i++ )
 	{
 		const int iProfile = iProfiles[i];
 		if ( iProfile >= 0 && iProfile < ASW_NUM_MARINE_PROFILES )
 		{
-			m_iSpectatingPrioMapping[iProfile] = i;
+			m_iProfileToSpectatingPriority[iProfile] = i;
 		}
 	}
 
@@ -2245,9 +2247,8 @@ void CASW_Player::SetSpectatingOrder( const int* iProfiles, int nProfiles )
 int CASW_Player::GetSpectatingPriority( CASW_Marine* pMarine ) const
 {
 	const int iProfile = pMarine ? pMarine->GetMarineProfile()->m_ProfileIndex : -1;
-	// worst priority if no marine or no profile index
-	return ( iProfile >= 0 && iProfile < ASW_NUM_MARINE_PROFILES ) ?
-		m_iSpectatingPrioMapping[iProfile1] : INT_MAX;
+	return ( iProfile >= 0 && iProfile < ASW_NUM_MARINE_PROFILES )
+		? m_iProfileToSpectatingPriority[iProfile1] : m_iWorstPriority;
 }
 
 void CASW_Player::SpectateNextMarineInOrder()
