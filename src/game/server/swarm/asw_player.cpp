@@ -2300,7 +2300,7 @@ void CASW_Player::SpectateNextMarineInOrder()
 		}
 
 		// Next perfect (iBeforePrio+1) can be dead, so check everyone after iBeforePrio
-		if (iMarinePrio > iBeforePrio && iMarinePrio < GetSpectatingPriority(pNextBest))
+		if (iMarinePrio > iBeforePrio && (!pNextBest || iMarinePrio < GetSpectatingPriority(pNextBest)))
 		{
 			Msg("  remember this guy as next best choice in order\n");
 			pNextBest = pMarine;
