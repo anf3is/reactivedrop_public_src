@@ -2256,6 +2256,14 @@ bool CASW_Player::CompareSpectatingPriority( CASW_Marine* pM1, CASW_Marine* pM2 
 	return iPriority1 < iPriority2;
 }
 
+int CASW_Player::GetSpectatingPriority( CASW_Marine* pMarine ) const
+{
+	const int iProfile = pMarine ? pMarine->GetMarineProfile()->m_ProfileIndex : -1;
+	// worst priority if no marine or no profile index
+	return ( iProfile >= 0 && iProfile < ASW_NUM_MARINE_PROFILES ) ?
+		m_iSpectatingPrioMapping[iProfile1] : INT_MAX;
+}
+
 void CASW_Player::SpectateNextMarineInOrder()
 {
 	CASW_Game_Resource* pGameResource = ASWGameResource();

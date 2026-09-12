@@ -93,6 +93,7 @@ private:
 public:
 	void UnsetSpectatingOrder() { m_bSpectatingInOrder = false; }
 	void SetSpectatingOrder( const int* iProfiles, int nProfiles );
+	int GetSpectatingPriority( CASW_Marine* pMarine ) const;
 	bool CompareSpectatingPriority( CASW_Marine* pM1, CASW_Marine* pM2 ) const;
 	void SpectateNextMarineInOrder();
 	void SpectateNextMarine();
