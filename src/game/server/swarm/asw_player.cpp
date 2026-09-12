@@ -2256,7 +2256,7 @@ void CASW_Player::SpectateNextMarineInOrder()
 	CASW_Game_Resource* pGameResource = ASWGameResource();
 	if (!pGameResource)
 		return;
-	//Msg("CASW_Player::SpectateNextMarineInOrder\n");
+	Msg("CASW_Player::SpectateNextMarineInOrder\n");
 
 	CASW_Marine *pFirst = NULL; // First with best priority or first and only seen
 	CASW_Marine *pBefore = CASW_Marine::AsMarine(GetSpectatingNPC()); // currently spectating
@@ -2266,35 +2266,35 @@ void CASW_Player::SpectateNextMarineInOrder()
 	// loop through all valid marines
 	for (int i=0;i<pGameResource->GetMaxMarineResources();i++)
 	{
-		//Msg("Checking pMR %d\n", i);
+		Msg("Checking pMR %d\n", i);
 		CASW_Marine_Resource* pMR = pGameResource->GetMarineResource(i);
 		CASW_Marine *pMarine = pMR ? pMR->GetMarineEntity() : NULL;
 		const int iMarinePrio = GetSpectatingPriority(pMarine);
 
 		if (!pMarine || !pMarine->IsAlive() || pMarine->GetHealth() <= 0)
 		{
-			//Msg(" but he's dead\n");
+			Msg(" but he's dead\n");
 			continue;
 		}
 
 		// try to find marine with best priority
 		if (!pFirst || iMarinePrio < GetSpectatingPriority(pFirst))
 		{
-			//Msg("  set this (better) guy as our first\n");
+			Msg("  set this (better) guy as our first\n");
 			pFirst = pMarine;
 		}
 
 		// there can be multiple unprioritized marines, or multiple players can have same marine character
 		if (GetSpectatingNPC() == NULL && iMarinePrio == iBeforePrio)
 		{
-			//Msg("  We're not spectating anyone and this dude has same priority as current spectator, so we're gonna spec this dude\n");
+			Msg("  We're not spectating anyone and this dude has same priority as current spectator, so we're gonna spec this dude\n");
 			SetSpectatingNPC(pMarine);
 			break;
 		}
 
 		if (GetSpectatingNPC() == pMarine)	// if we're spectating this one, then clear it, so the next one we find will get set
 		{
-			//Msg("  we're spectating this dude, so clearing our current spectator\n");
+			Msg("  we're spectating this dude, so clearing our current spectator\n");
 			SetSpectatingNPC(NULL);
 			continue;
 		}
@@ -2302,21 +2302,21 @@ void CASW_Player::SpectateNextMarineInOrder()
 		// Next perfect (iBeforePrio+1) can be dead, so check everyone after iBeforePrio
 		if (iMarinePrio > iBeforePrio && iMarinePrio < GetSpectatingPriority(pNextBest))
 		{
-			//Msg("  remember this guy as next best choice in order\n");
+			Msg("  remember this guy as next best choice in order\n");
 			pNextBest = pMarine;
 		}
 	}
-	//Msg("end\n");
+	Msg("end\n");
 	// haven't found next marine with same priority, so try to set next best
 	if (GetSpectatingNPC() == NULL && pNextBest)
 	{
-		//Msg("  and spectate next best marine\n");
+		Msg("  and spectate next best marine\n");
 		SetSpectatingNPC(pNextBest);
 	}
 	// if we're still not spectating anything but we found at least marine, then that means we were spectating the last one in the list and need to set this
 	if (GetSpectatingNPC() == NULL && pFirst)
 	{
-		//Msg("  but we're still not speccing anyone and we have a first set, so speccing that dude\n");
+		Msg("  but we're still not speccing anyone and we have a first set, so speccing that dude\n");
 		SetSpectatingNPC(pFirst);
 	}
 }
