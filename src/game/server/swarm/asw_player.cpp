@@ -2201,7 +2201,7 @@ CON_COMMAND_F( rd_spectate_order_set, "Prioritize this marines in spectate order
 	pPlayer->SetSpectatingOrder( iProfiles, nProfiles );
 
 	// Start spectating "best" marine
-	if ( ASWGameRules()->GetGameState() == ASW_GS_INGAME )
+	if ( ASWGameRules()->GetGameState() == ASW_GS_INGAME && !pPlayer->IsAlive() )
 	{
 		pPlayer->SetSpectatingNPC( NULL );
 		pPlayer->SpectateNextMarine();
