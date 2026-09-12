@@ -2248,7 +2248,7 @@ int CASW_Player::GetSpectatingPriority( CASW_Marine* pMarine ) const
 {
 	const int iProfile = pMarine ? pMarine->GetMarineProfile()->m_ProfileIndex : -1;
 	return ( iProfile >= 0 && iProfile < ASW_NUM_MARINE_PROFILES )
-		? m_iProfileToSpectatingPriority[iProfile1] : m_iWorstPriority;
+		? m_iProfileToSpectatingPriority[iProfile] : m_iWorstPriority;
 }
 
 void CASW_Player::SpectateNextMarineInOrder()
