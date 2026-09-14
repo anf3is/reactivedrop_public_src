@@ -657,6 +657,30 @@ ConVar rd_revive_health( "rd_revive_health", "10", FCVAR_CHEAT | FCVAR_REPLICATE
 // TODO: add callback to set defaults if gamerules and set relationship to (undead) marines if in game
 ConVar rd_revive_alive_hate_dead( "rd_revive_alive_hate_dead", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Allow alive marines to inflict status effects (like freeze) to incapacitated marines." );
 ConVar rd_revive_dead_hate_alive( "rd_revive_dead_hate_alive", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Allow incapacitated marines to inflict status effects (like freeze) to alive marines (including projectiles they spawned while being alive)" );
+static void hate_dead_cb()
+{
+#ifndef CLIENT_DLL
+	if ( !rd_revive_alive_hate_dead.GetBool() )
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_MARINES, FACTION_INCAPACITATED, D_LIKE, 0 );
+	else
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_MARINES, FACTION_INCAPACITATED, D_NEUTRAL, 0 );
+#endif // !CLIENT_DLL
+}
+static void hate_alive_cb()
+{
+#ifndef CLIENT_DLL
+	if ( !rd_revive_dead_hate_alive.GetBool() )
+	{
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_MARINES, D_LIKE, 0 );
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_INCAPACITATED, D_LIKE, 0 );
+	}
+	else
+	{
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_MARINES, D_NEUTRAL, 0 );
+		CAI_BaseNPC::SetDefaultFactionRelationship(FACTION_INCAPACITATED, FACTION_INCAPACITATED, D_NEUTRAL, 0 );
+	}
+#endif // !CLIENT_DLL
+}
 ConVar rd_hp_regen( "rd_hp_regen", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "0 disable marines' health regeneration" );
 ConVar rd_add_bots( "rd_add_bots", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "1 add bots to fill free slots, 0 don't add" );
 ConVar rd_ammo_bonus( "rd_ammo_bonus", "0", FCVAR_CHEAT | FCVAR_REPLICATED );
