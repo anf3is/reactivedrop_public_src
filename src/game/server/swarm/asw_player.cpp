@@ -2296,6 +2296,22 @@ void CASW_Player::SpectateNextMarineInOrder()
 	}
 }
 
+// Parse and set spectrating order if parsing was successfull
+bool CASW_Player::SetSpectatingOrder( const char* szProfiles )
+{
+	int iProfiles[ASW_NUM_MARINE_PROFILES];
+	const int nProfiles = parseSpectateOrder( szProfiles, iProfiles );
+
+	// Failed parsing
+	if ( nProfiles == -1 )
+	{
+		return false;
+	}
+
+	SetSpectatingOrder( iProfiles, nProfiles );
+	return true;
+}
+
 // Can have some marine profiles; rest will have worst priority
 void CASW_Player::SetSpectatingOrder( const int* iProfiles, int nProfiles )
 {
@@ -2351,16 +2367,8 @@ CON_COMMAND_F( rd_spectate_order_set, "Setup 'rd_spectate_order' to player objec
 
 	const char* szOrder = engine->GetClientConVarValue( pClient->entindex(), "rd_spectate_order" );
 
-	int iProfiles[ASW_NUM_MARINE_PROFILES];
-	const int nProfiles = parseSpectateOrder( szOrder, iProfiles );
-
-	// Failed parsing
-	if ( nProfiles == -1 )
-	{
+	if ( !pPlayer->SetSpectatingOrder( szOrder ) )
 		return;
-	}
-
-	pPlayer->SetSpectatingOrder( iProfiles, nProfiles );
 
 	// Start spectating "best" marine if we are spectating
 	if ( ASWGameRules()->GetGameState() == ASW_GS_INGAME && pPlayer->GetSpectatingNPC() != NULL )

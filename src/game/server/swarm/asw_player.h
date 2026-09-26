@@ -94,6 +94,7 @@ private:
 public:
 	void SpectateNextMarine();
 	void SpectateNextMarineInOrder();
+	bool SetSpectatingOrder( const char* szProfiles );
 	void SetSpectatingOrder( const int* iProfiles, int nProfiles );
 	void UnsetSpectatingOrder() { m_bSpectatingInOrder = false; }
 	int GetSpectatingPriority( CASW_Marine* pMarine ) const; // returns worst priority if no marine or no profile index
