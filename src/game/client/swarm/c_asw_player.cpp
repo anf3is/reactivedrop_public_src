@@ -1519,12 +1519,6 @@ void C_ASW_Player::OnDataChanged( DataUpdateType_t updateType )
 				}
 			}
 
-			// send our rd_spectate_order to the server
-			if ( Q_strlen( rd_spectate_order.GetString() ) > 0 )
-			{
-				set_rd_spectate_order();
-			}
-
 			// tell other players that we're fully connected
 			engine->ServerCmd( "cl_fullyjoined\n" );
 		}
@@ -3011,7 +3005,7 @@ CSteamID C_ASW_Player::GetSteamID()
 
 static void set_rd_spectate_order( IConVar *pConVar, const char *pOldValue, float flOldValue )
 {
-	const char *pNewValue = pConVar ? ConVarRef( pConVar ).GetString() : rd_spectate_order.GetString();
+	const char *pNewValue = ConVarRef( pConVar ).GetString();
 
 	int iProfiles[ASW_NUM_MARINE_PROFILES];
 	const int nProfiles = parseSpectateOrder( pNewValue, iProfiles );
@@ -3024,10 +3018,5 @@ static void set_rd_spectate_order( IConVar *pConVar, const char *pOldValue, floa
 			ConVarRef( pConVar ).SetValue( pOldValue );
 		}
 		return;
-	}
-
-	if ( engine->IsInGame() )
-	{
-		engine->ClientCmd( "rd_spectate_order_set\n" );
 	}
 }

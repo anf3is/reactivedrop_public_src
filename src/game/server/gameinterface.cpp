@@ -7,6 +7,7 @@
 //===========================================================================//
 
 #include "cbase.h"
+#include "asw_player.h"
 #include "gamestringpool.h"
 #include "mapentities_shared.h"
 #include "game.h"
@@ -2958,7 +2959,8 @@ void CServerGameClients::ClientSettingsChanged( edict_t *pEdict )
 		player->m_bLagCompensationChainsaw = false;
 #endif
 	}
-	
+
+	static_cast<CASW_Player*>( player )->SetSpectatingOrder( QUICKGETCVARVALUE( "rd_spectate_order" ) );
 
 #undef QUICKGETCVARVALUE
 
