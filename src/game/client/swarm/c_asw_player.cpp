@@ -150,7 +150,7 @@ ConVar asw_turret_fog_end( "asw_turret_fog_end", "1200", 0, "Fog end distance fo
 ConVar rd_force_spectate_marine( "rd_force_spectate_marine", "-1", FCVAR_DONTRECORD, "spectate this marine resource index if it exists", true, -1, true, ASW_MAX_MARINE_RESOURCES );
 
 static void set_rd_spectate_order( IConVar *pConVar = NULL, const char *pOldValue = NULL, float flOldValue = 0.0f );
-ConVar rd_spectate_order( "rd_spectate_order", "", FCVAR_ARCHIVE, "Prioritize this marine profiles for spectate order. Space separated list. Example: \"4 1 7 3 0\".", set_rd_spectate_order );
+ConVar rd_spectate_order( "rd_spectate_order", "", FCVAR_ARCHIVE | FCVAR_USERINFO, "Prioritize this marine profiles for spectate order. Space separated list. Example: \"4 1 7 3 0\".", set_rd_spectate_order );
 
 extern ConVar asw_allow_detach;
 extern ConVar asw_stim_cam_time;
@@ -3028,9 +3028,6 @@ static void set_rd_spectate_order( IConVar *pConVar, const char *pOldValue, floa
 
 	if ( engine->IsInGame() )
 	{
-		const int iBufLen = 30 + ASW_NUM_MARINE_PROFILES * 3;
-		char szbuf[iBufLen];
-		Q_snprintf( szbuf, iBufLen, "rd_spectate_order_set \"%s\"\n", pNewValue );
-		engine->ClientCmd( szbuf );
+		engine->ClientCmd( "rd_spectate_order_set\n" );
 	}
 }
