@@ -2617,8 +2617,8 @@ void CViewRender::RenderView( const CViewSetup &view, const CViewSetup &hudViewS
 	// Clear a row of pixels at the edge of the viewport if it isn't at the edge of the screen
 	if ( VGui_IsSplitScreen() )
 	{
-		CMatRenderContextPtr pRenderContext( materials );
-		pRenderContext->PushRenderTargetAndViewport();
+		CMatRenderContextPtr pRenderContextSS( materials );
+		pRenderContextSS->PushRenderTargetAndViewport();
 
 		int nScreenWidth, nScreenHeight;
 		g_pMaterialSystem->GetBackBufferDimensions( nScreenWidth, nScreenHeight );
@@ -2628,34 +2628,34 @@ void CViewRender::RenderView( const CViewSetup &view, const CViewSetup &hudViewS
 
 		if ( view.x != 0 ) // if left of viewport isn't at 0
 		{
-			pRenderContext->Viewport( view.x, view.y, 1, view.height );
-			pRenderContext->ClearColor3ub( 0, 0, 0 );
-			pRenderContext->ClearBuffers( true, false );
+			pRenderContextSS->Viewport( view.x, view.y, 1, view.height );
+			pRenderContextSS->ClearColor3ub( 0, 0, 0 );
+			pRenderContextSS->ClearBuffers( true, false );
 		}
 
 		if ( ( view.x + view.width ) != nScreenWidth ) // if right of viewport isn't at edge of screen
 		{
-			pRenderContext->Viewport( view.x + view.width - 1, view.y, 1, view.height );
-			pRenderContext->ClearColor3ub( 0, 0, 0 );
-			pRenderContext->ClearBuffers( true, false );
+			pRenderContextSS->Viewport( view.x + view.width - 1, view.y, 1, view.height );
+			pRenderContextSS->ClearColor3ub( 0, 0, 0 );
+			pRenderContextSS->ClearBuffers( true, false );
 		}
 
 		if ( view.y != 0 ) // if top of viewport isn't at 0
 		{
-			pRenderContext->Viewport( view.x, view.y, view.width, 1 );
-			pRenderContext->ClearColor3ub( 0, 0, 0 );
-			pRenderContext->ClearBuffers( true, false );
+			pRenderContextSS->Viewport( view.x, view.y, view.width, 1 );
+			pRenderContextSS->ClearColor3ub( 0, 0, 0 );
+			pRenderContextSS->ClearBuffers( true, false );
 		}
 
 		if ( ( view.y + view.height ) != nScreenHeight ) // if bottom of viewport isn't at edge of screen
 		{
-			pRenderContext->Viewport( view.x, view.y + view.height - 1, view.width, 1 );
-			pRenderContext->ClearColor3ub( 0, 0, 0 );
-			pRenderContext->ClearBuffers( true, false );
+			pRenderContextSS->Viewport( view.x, view.y + view.height - 1, view.width, 1 );
+			pRenderContextSS->ClearColor3ub( 0, 0, 0 );
+			pRenderContextSS->ClearBuffers( true, false );
 		}
 
-		pRenderContext->PopRenderTargetAndViewport();
-		pRenderContext->Release();
+		pRenderContextSS->PopRenderTargetAndViewport();
+		pRenderContextSS->Release();
 	}
 
 	// Draw the 2D graphics
