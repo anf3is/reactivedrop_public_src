@@ -108,7 +108,7 @@ typedef unsigned __int64 ULONGLONG;
 typedef int32 COLORREF;
 #endif
 
-#ifndef _WIN32
+#ifndef IS_WINDOWS_PC
 #ifndef INVALID_HANDLE_VALUE
 #define INVALID_HANDLE_VALUE ((HANDLE)-1)
 #endif
