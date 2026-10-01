@@ -19,6 +19,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+ConVar rd_melee_flinch_min( "rd_melee_flinch_min", 0, FCVAR_CHEAT | FCVAR_REPLICATED, "Minimum flinch duration inflicted by marines' melee attacks. 0 = small, 1 = medium, 2 = large.", true, 0, true, 2 );
+
 static CRD_GameRulesConVarCollection s_ASWMarineSkillsConVars( "asw_marine_skills" );
 
 // Never add anything to the start or middle of this list!
@@ -586,11 +588,14 @@ float CASW_Marine_Skills::GetSkillBasedValue( CASW_Marine_Profile *pProfile, ASW
 			return asw_skill_melee_force_base.GetFloat() + asw_skill_melee_force_step.GetFloat() * iSkillPoints;
 		case ASW_MARINE_SUBSKILL_MELEE_FLINCH:
 			// return a different length flinch (large, small, tiny) based on our skill points
+			int iFlinchVal;
 			if ( iSkillPoints >= 4 )
-				return 2;
-			if ( iSkillPoints >= 2 )
-				return 1;
-			return 0;
+				iFlinchVal = 2;
+			else if ( iSkillPoints >= 2 )
+				iFlinchVal = 1;
+			else
+				iFlinchVal = 0;
+			return MAX( iFlinchVal, rd_melee_flinch_min.GetInt() );
 		case ASW_MARINE_SUBSKILL_MELEE_SPEED:
 			return asw_skill_melee_speed_base.GetFloat() + asw_skill_melee_speed_step.GetFloat() * iSkillPoints;
 		default:
